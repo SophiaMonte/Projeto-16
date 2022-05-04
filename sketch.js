@@ -5,7 +5,7 @@ var gameState=1;
 
 var knife,fruit ,monster,fruitGroup,monsterGroup, score,r,randomFruit, position;
 var knifeImage , fruit1, fruit2 ,fruit3,fruit4, monsterImage, gameOverImage;
-var gameOverSound ,knifeSwoosh, space, restart, spaceImg, restartImg;
+var gameOverSound ,knifeSwoosh, space, spaceImg;
 
 function preload(){
   
@@ -16,7 +16,6 @@ function preload(){
   fruit3 = loadImage("fruit3.png");
   fruit4 = loadImage("fruit4.png");
   gameOverImage = loadImage("fimdeJogo.png");
-  restartImg = loadImage("restart.png");
   spaceImg = loadImage("space.png");
   
   gameOverSound = loadSound("gameover.mp3")
@@ -42,12 +41,6 @@ function setup() {
   score=0;
   fruitGroup=createGroup();
   monsterGroup=createGroup();
-  // botões
-  restart = createSprite(400, 370);
-  restart.addImage("restart", restartImg);
-  restart.visible = false;
-  restart.scale = 0.7;
-
 
   space = createSprite(250, 370);
   space.addImage("space", spaceImg);
@@ -79,28 +72,28 @@ function draw() {
       //Vá para o estado final se a espada tocar o inimigo
       if(monsterGroup.isTouching(knife)){
         gameState=END;
-        //som de fim de jogo/gameover
-        gameOverSound.play()
-        
-        fruitGroup.destroyEach();
-        monsterGroup.destroyEach();
-        fruitGroup.setVelocityXEach(0);
-        monsterGroup.setVelocityXEach(0);
-        
-        //Mude a animação da espada para fim de jogo e redefina sua posição
-        knife.addImage(gameOverImage);
-        knife.scale=1;
-        knife.x=300;
-        knife.y=300;
-        //tornar os botoes visiveis
-        space.visible = true;
-        restart.visible = true;
+        gameOverSound.play();
       }
-      if (keyDown(space)){
-        gameState = PLAY;
-      }  
     }
+    if(gameState === END){
+     //som de fim de jogo/gameover
+     fruitGroup.destroyEach();
+     monsterGroup.destroyEach();
+     fruitGroup.setVelocityXEach(0);
+     monsterGroup.setVelocityXEach(0);
+  
+     //Mude a animação da espada para fim de jogo e redefina sua posição
+     knife.addImage(gameOverImage);
+     knife.scale=1;
+     knife.x=300;                       
+     knife.y=300;
+    //tornar os botoes visiveis
+     //space.visible = t
+     }
+    
   }
+
+  
   
   drawSprites();
   //exibir pontuação
@@ -164,3 +157,5 @@ function fruits(){
     fruitGroup.add(fruit);
   }
 }
+
+
